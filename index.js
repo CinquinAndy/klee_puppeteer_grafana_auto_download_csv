@@ -1,11 +1,11 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const path = require("path");
 
-function cookieParsing(){
-    const cookies_saved = fs.readFileSync('cookies.json', 'utf8')
-    return JSON.parse(cookies_saved);
-}
+// todo regler le problème de browser headless qui n'arrive pas à récupèrer les éléments [ manque de js ? ]
+//https://stackoverflow.com/questions/49245080/how-to-download-file-with-puppeteer-using-headless-true
+
 (async () => {
     // on lance le launcher
     const browser = await puppeteer.launch(
@@ -35,10 +35,18 @@ function cookieParsing(){
     await page.close();
 
     // on ouvre une nouvelle page & set les cookies de sessions
-    const deserializedCookies = cookieParsing();
+    const cookies_saved = fs.readFileSync('cookies.json', 'utf8')
+    const deserializedCookies = JSON.parse(cookies_saved);
     const newPage = await browser.newPage();
     await newPage.goto(process.env.URL);
     await newPage.setCookie(...deserializedCookies)
+
+    const downloadPath = path.resolve('./csv/');
+    await newPage._client.send('Page.setDownloadBehavior', {
+        behavior: 'allow',
+        userDataDir: './',
+        downloadPath: downloadPath,
+    });
 
     // on va à la page de dashboard
     await newPage.goto(process.env.URL+process.env.LINK_PANNEL);
@@ -82,5 +90,5 @@ function cookieParsing(){
     }
 
     // puis on ferme le navigateur
-    await browser.close();
+    // await browser.close();
 })();
