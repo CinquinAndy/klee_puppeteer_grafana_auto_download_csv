@@ -39,6 +39,10 @@ URL="http://192.168.172.131:3000"
 LINK_PANNEL="/d/41ZYbC7mz/zabbix-full-server-status"
 ```
 
+### create folder and give good right
+`sudo mkdir /<project_path>/csv`  
+`sudo chown user:user -R /<project_path>/csv`
+
 ## How to use
 Now you can just run the script with node
 ````
