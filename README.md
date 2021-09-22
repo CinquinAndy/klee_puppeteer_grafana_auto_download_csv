@@ -1,8 +1,8 @@
 # Grafana Scraping project
-This projet is used to scrap a grafana instance and download all csv files from all charts in a specific pannel 
+This project is used to scrap a grafana instance and download all csv files from all charts in a specific pannel 
 
 ## Prerequisite
-We need an functional instance of zabbix, connected with a grafana instance
+We need a functional instance of zabbix, connected with a grafana instance
 
 ## Install
 
